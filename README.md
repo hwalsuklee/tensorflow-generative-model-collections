@@ -41,4 +41,4 @@ Tensorflow implementation of various GANs and VAEs.
 (to be added)
 
 ## Acknowledgements
-This implementation has been tested with Tensorflow over ver1.0 on Windows 10 and Ubuntu 14.04.
+This implementation has been based on [this repository](https://github.com/carpedm20/DCGAN-tensorflow) and tested with Tensorflow over ver1.0 on Windows 10 and Ubuntu 14.04.
