@@ -3,9 +3,6 @@ Tensorflow implementation of various GANs and VAEs.
 
 ## Generative Adversarial Networks (GANs)
 ### Lists  
-:white_check_mark: means that it is implemented.  
-:clock9: means that I'm working on it.  
-:negative_squared_cross_mark: means that it will be implmented very soon.
 
 *Name* | *mnist impl.* | *fashion-mnist impl.* | *celebA impl.* | Loss Function
 :---: | :---: | :---: | :---: | :--- |
@@ -17,7 +14,11 @@ Tensorflow implementation of various GANs and VAEs.
 [**infoGAN**](https://arxiv.org/abs/1606.03657) | :white_check_mark: | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/infoGAN.png' height = '60px'>
 [**ACGAN**](https://arxiv.org/abs/1610.09585) | :white_check_mark: | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/ACGAN.png' height = '60px'>
 [**EBGAN**](https://arxiv.org/abs/1609.03126) | :white_check_mark: | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/EBGAN.png' height = '60px'>
-[**BEGAN**](https://arxiv.org/abs/1702.08431) | :white_check_mark: | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/BEGAN.png' height = '90px'>
+[**BEGAN**](https://arxiv.org/abs/1702.08431) | :white_check_mark: | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/BEGAN.png' height = '90px'>  
+
+:white_check_mark: means that it is implemented.  
+:clock9: means that I'm working on it.  
+:negative_squared_cross_mark: means that it will be implmented very soon.
 
 ### Results for mnist
 
@@ -25,16 +26,17 @@ Tensorflow implementation of various GANs and VAEs.
 ## Variational Auto-Encoders (VAEs)
 
 ### Lists
-:white_check_mark: means that it is implemented.  
-:clock9: means that I'm working on it.  
-:negative_squared_cross_mark: means that it will be implmented very soon.  
 
 *Name* | *mnist impl.* | *fashion-mnist impl.* | *celebA impl.*
 :---: | :---: | :---: | :---:
 [**VAE**](https://arxiv.org/abs/1312.6114) | :clock9: | :negative_squared_cross_mark: | :negative_squared_cross_mark:
 [**CVAE**](https://arxiv.org/abs/1406.5298) | :clock9: | :negative_squared_cross_mark: | :negative_squared_cross_mark:
 [**DVAE**](https://arxiv.org/abs/1511.06406) | :clock9: | :negative_squared_cross_mark: | :negative_squared_cross_mark:
-[**AAE**](https://arxiv.org/abs/1511.05644) | :clock9: | :negative_squared_cross_mark: | :negative_squared_cross_mark:
+[**AAE**](https://arxiv.org/abs/1511.05644) | :clock9: | :negative_squared_cross_mark: | :negative_squared_cross_mark:  
+
+:white_check_mark: means that it is implemented.  
+:clock9: means that I'm working on it.  
+:negative_squared_cross_mark: means that it will be implmented very soon.  
 
 ## Acknowledgements
 This implementation has been tested with Tensorflow over ver1.0 on Windows 10 and Ubuntu 14.04.
