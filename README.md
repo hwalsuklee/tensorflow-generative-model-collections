@@ -81,6 +81,10 @@ BEGAN | <img src = 'assets/fashion_mnist_results/random_generation/BEGAN_epoch00
 #### Conditional generation
 Each row has the same noise vector and each column has the same label condition.
 
+Without hyper-parameter tuning from mnist-version, ACGAN/infoGAN does not work well as compared iwth CGAN.  
+ACGAN tends to fall into mode-collapse.  
+infoGAN tends to ignore noise-vector. It results in that various style within the same class can not be represented.
+
 *Name* | *Epoch 1* | *Epoch 20* | *Epoch 40*
 :---: | :---: | :---: | :---: |
 CGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoch019_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoch039_test_all_classes_style_by_style.png' height = '230px'>
