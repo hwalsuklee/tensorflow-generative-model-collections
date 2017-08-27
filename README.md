@@ -116,5 +116,25 @@ infoGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/infoGA
 ### Some results for celebA
 (to be added)
 
+## File descriptions
+The following shows basic folder structure.
+```bash
+├── main.py # gateway
+├── data
+│   ├── mnist # mnist data (not included in this repo)
+│   |   ├── t10k-images-idx3-ubyte.gz
+│   |   ├── t10k-labels-idx1-ubyte.gz
+│   |   ├── train-images-idx3-ubyte.gz
+│   |   └── train-labels-idx1-ubyte.gz
+│   └── fashion-mnist # fashion-mnist data (not included in this repo)
+│   |   ├── t10k-images-idx3-ubyte.gz
+│   |   ├── t10k-labels-idx1-ubyte.gz
+│   |   ├── train-images-idx3-ubyte.gz
+│   |   └── train-labels-idx1-ubyte.gz
+├── GAN.py # vainilla GAN
+├── ops.py # some operations on layer
+└── utils.py # utils
+```
+
 ## Acknowledgements
 This implementation has been based on [this repository](https://github.com/carpedm20/DCGAN-tensorflow) and tested with Tensorflow over ver1.0 on Windows 10 and Ubuntu 14.04.
