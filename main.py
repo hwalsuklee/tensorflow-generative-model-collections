@@ -9,7 +9,7 @@ from WGAN import WGAN
 from DRAGAN import DRAGAN
 from LSGAN import LSGAN
 from BEGAN import BEGAN
-from VAE import VAE
+
 from utils import show_all_variables
 
 import tensorflow as tf
