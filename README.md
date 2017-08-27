@@ -116,9 +116,9 @@ infoGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/infoGA
 ### Some results for celebA
 (to be added)
 
-## File descriptions
+## Folder structure
 The following shows basic folder structure.
-```bash
+```
 ├── main.py # gateway
 ├── data
 │   ├── mnist # mnist data (not included in this repo)
@@ -127,10 +127,10 @@ The following shows basic folder structure.
 │   |   ├── train-images-idx3-ubyte.gz
 │   |   └── train-labels-idx1-ubyte.gz
 │   └── fashion-mnist # fashion-mnist data (not included in this repo)
-│   |   ├── t10k-images-idx3-ubyte.gz
-│   |   ├── t10k-labels-idx1-ubyte.gz
-│   |   ├── train-images-idx3-ubyte.gz
-│   |   └── train-labels-idx1-ubyte.gz
+│       ├── t10k-images-idx3-ubyte.gz
+│       ├── t10k-labels-idx1-ubyte.gz
+│       ├── train-images-idx3-ubyte.gz
+│       └── train-labels-idx1-ubyte.gz
 ├── GAN.py # vainilla GAN
 ├── ops.py # some operations on layer
 └── utils.py # utils
