@@ -63,7 +63,7 @@ Comments on network architecture in mnist are also applied to here.
 
 The following results can be reproduced with command:  
 ```
-python main.py --dataset fashion-mnist --gan_type <TYPE> --epoch 40 --batch_size 100
+python main.py --dataset fashion-mnist --gan_type <TYPE> --epoch 40 --batch_size 64
 ```
 
 #### Random generation
