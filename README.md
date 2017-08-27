@@ -19,7 +19,7 @@ Tensorflow implementation of various GANs and VAEs.
 #### Variants of GAN structure
 <img src = 'assets/etc/GAN_structure.png' height = '600px'>
 
-### Some results for mnist
+### Results for mnist
 Network architecture of generator and discriminator is the exaclty sames as in [infoGAN paper](https://arxiv.org/abs/1606.0365).  
 For fair comparison of core ideas in all gan variants, all implementations for network architecture are kept same except EBGAN and BEGAN. Small modification is made for EBGAN/BEGAN, since those adopt auto-encoder strucutre for discriminator. But I tried to keep the capacity of discirminator.
 
@@ -57,7 +57,7 @@ infoGAN | <img src = 'assets/mnist_results/conditional_generation/infoGAN_epoch0
 <td><img src = 'assets/mnist_results/infogan/infoGAN_epoch024_test_class_c1c2_9.png' height = '200px'></td>
 </table>
 
-### Some results for fashion-mnist
+### Results for fashion-mnist
 Comments on network architecture in mnist are also applied to here.  
 [Fasion-mnist](https://github.com/zalandoresearch/fashion-mnist) is a recently proposed dataset consisting of a training set of 60,000 examples and a test set of 10,000 examples. Each example is a 28x28 grayscale image, associated with a label from 10 classes. (T-shirt/top, Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, Ankle boot)
 
