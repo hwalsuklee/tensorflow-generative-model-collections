@@ -4,17 +4,17 @@ Tensorflow implementation of various GANs and VAEs.
 ## Generative Adversarial Networks (GANs)
 ### Lists
 
-*Name* | *Paper Link* | *mnist impl.* | *celebA impl.* 
-:---: | :---: | :---: | :---: 
-**GAN** | [Arxiv](https://arxiv.org/abs/1406.2661) | :white_check_mark: | :negative_squared_cross_mark:
-**LSGAN** | [Arxiv](https://arxiv.org/abs/1611.04076) | :white_check_mark: | :negative_squared_cross_mark:
-**WGAN** | [Arxiv](https://arxiv.org/abs/1701.07875) | :white_check_mark: | :negative_squared_cross_mark:
-**DRAGAN** | [Arxiv](https://arxiv.org/abs/1705.07215) | :white_check_mark: | :negative_squared_cross_mark:
-**CGAN** | [Arxiv](https://arxiv.org/abs/1411.1784) | :white_check_mark: | :negative_squared_cross_mark:
-**infoGAN** | [Arxiv](https://arxiv.org/abs/1606.03657) | :white_check_mark: | :negative_squared_cross_mark:
-**ACGAN** | [Arxiv](https://arxiv.org/abs/1610.09585) | :white_check_mark: | :negative_squared_cross_mark:
-**EBGAN** | [Arxiv](https://arxiv.org/abs/1609.03126) | :white_check_mark: | :negative_squared_cross_mark:
-**BEGAN** | [Arxiv](https://arxiv.org/abs/1702.08431) | :white_check_mark: | :negative_squared_cross_mark:
+*Name* | *Paper Link* | *mnist impl.* | *celebA impl.* | Loss Functions
+:---: | :---: | :---: | :---: | :---: |
+**GAN** | [Arxiv](https://arxiv.org/abs/1406.2661) | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/GAN.png' height = '74px'>
+**LSGAN** | [Arxiv](https://arxiv.org/abs/1611.04076) | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/LSGAN.png' height = '74px'>
+**WGAN** | [Arxiv](https://arxiv.org/abs/1701.07875) | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/WGAN.png' height = '111px'>
+**DRAGAN** | [Arxiv](https://arxiv.org/abs/1705.07215) | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/DRAGAN.png' height = '74px'>
+**CGAN** | [Arxiv](https://arxiv.org/abs/1411.1784) | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/CGAN.png' height = '74px'>
+**infoGAN** | [Arxiv](https://arxiv.org/abs/1606.03657) | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/infoGAN.png' height = '74px'>
+**ACGAN** | [Arxiv](https://arxiv.org/abs/1610.09585) | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/ACGAN.png' height = '74px'>
+**EBGAN** | [Arxiv](https://arxiv.org/abs/1609.03126) | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/EBGAN.png' height = '74px'>
+**BEGAN** | [Arxiv](https://arxiv.org/abs/1702.08431) | :white_check_mark: | :negative_squared_cross_mark: | <img src = 'assets/equations/BEGAN.png' height = '111px'>
 
 ### Results for mnist
 
