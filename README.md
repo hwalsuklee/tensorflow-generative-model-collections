@@ -133,7 +133,9 @@ The following shows basic folder structure.
 │       └── train-labels-idx1-ubyte.gz
 ├── GAN.py # vainilla GAN
 ├── ops.py # some operations on layer
-└── utils.py # utils
+├── utils.py # utils
+├── logs # log files for tensorboard to be saved here
+└── checkpoint # model files to be saved here
 ```
 
 ## Acknowledgements
