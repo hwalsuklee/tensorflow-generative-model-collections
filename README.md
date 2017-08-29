@@ -113,7 +113,7 @@ infoGAN tends to ignore noise-vector. It results in that various style within th
 **DVAE**| [Arxiv](https://arxiv.org/abs/1511.06406) | (to be added)
 **AAE**| [Arxiv](https://arxiv.org/abs/1511.05644) | (to be added) 
 
-#### Variants of GAN structure
+#### Variants of VAE structure
 <img src = 'assets/etc/VAE_structure.png' height = '280px'>
 
 ### Results for mnist
