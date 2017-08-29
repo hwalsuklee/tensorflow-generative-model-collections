@@ -156,7 +156,7 @@ class CGAN(object):
         self.test_images = self.data_X[0:self.batch_size]
         self.test_labels = self.data_y[0:self.batch_size]
 
-        # saver to save modelbatch_size
+        # saver to save model
         self.saver = tf.train.Saver()
 
         # summary writer
