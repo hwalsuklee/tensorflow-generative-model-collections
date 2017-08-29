@@ -1,5 +1,6 @@
 import os
 
+## GAN Variants
 from GAN import GAN
 from CGAN import CGAN
 from infoGAN import infoGAN
@@ -9,6 +10,10 @@ from WGAN import WGAN
 from DRAGAN import DRAGAN
 from LSGAN import LSGAN
 from BEGAN import BEGAN
+
+## VAE Variants
+from VAE import VAE
+from CVAE import CVAE
 
 from utils import show_all_variables
 
@@ -21,7 +26,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description=desc)
 
     parser.add_argument('--gan_type', type=str, default='GAN',
-                        choices=['GAN', 'CGAN', 'infoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'DRAGAN', 'LSGAN'],
+                        choices=['GAN', 'CGAN', 'infoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'DRAGAN', 'LSGAN', 'VAE', 'CVAE'],
                         help='The type of GAN', required=True)
     parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fashion-mnist', 'celebA'],
                         help='The name of dataset')
@@ -100,6 +105,12 @@ def main():
                          checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
         elif args.gan_type == 'BEGAN':
             gan = BEGAN(sess, epoch=args.epoch, batch_size=args.batch_size, dataset_name=args.dataset,
+                        checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
+        elif args.gan_type == 'VAE':
+            gan = VAE(sess, epoch=args.epoch, batch_size=args.batch_size, dataset_name=args.dataset,
+                        checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
+        elif args.gan_type == 'CVAE':
+            gan = CVAE(sess, epoch=args.epoch, batch_size=args.batch_size, dataset_name=args.dataset,
                         checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
         else:
             raise Exception("[!] There is no option for " + args.gan_type)
