@@ -4,7 +4,7 @@ Tensorflow implementation of various GANs and VAEs.
 ## Generative Adversarial Networks (GANs)
 ### Lists  
 
-*Name* | *Paer Link* | *Loss Function*
+*Name* | *Paer Link* | *Value Function*
 :---: | :---: | :--- |
 **GAN** | [Arxiv](https://arxiv.org/abs/1406.2661) | <img src = 'assets/equations/GAN.png' height = '70px'>
 **LSGAN**| [Arxiv](https://arxiv.org/abs/1611.04076) | <img src = 'assets/equations/LSGAN.png' height = '70px'>
@@ -106,18 +106,21 @@ infoGAN tends to ignore noise-vector. It results in that various style within th
 
 ### Lists
 
-*Name* | *Paper Link* |
-:---: | :---: |
-**VAE**| [Arxiv](https://arxiv.org/abs/1312.6114) 
-**CVAE**| [Arxiv](https://arxiv.org/abs/1406.5298) 
-**DVAE**| [Arxiv](https://arxiv.org/abs/1511.06406) 
-**AAE**| [Arxiv](https://arxiv.org/abs/1511.05644) 
+*Name* | *Paper Link* | *Loss Function*
+:---: | :---: | :---
+**VAE**| [Arxiv](https://arxiv.org/abs/1312.6114) | <img src = 'assets/equations/VAE.png' height = '35px'>
+**CVAE**| [Arxiv](https://arxiv.org/abs/1406.5298) | <img src = 'assets/equations/CVAE.png' height = '35px'>
+**DVAE**| [Arxiv](https://arxiv.org/abs/1511.06406) | (to be added)
+**AAE**| [Arxiv](https://arxiv.org/abs/1511.05644) | (to be added) 
 
-### Some results for mnist
+#### Variants of GAN structure
+<img src = 'assets/etc/VAE_structure.png' height = '280px'>
+
+### Results for mnist
 (to be added)
-### Some results for fashion-mnist
+### Rresults for fashion-mnist
 (to be added)
-### Some results for celebA
+### Results for celebA
 (to be added)
 
 ## Folder structure
