@@ -117,9 +117,62 @@ infoGAN tends to ignore noise-vector. It results in that various style within th
 <img src = 'assets/etc/VAE_structure.png' height = '280px'>
 
 ### Results for mnist
-(to be added)
-### Rresults for fashion-mnist
-(to be added)
+Network architecture of decoder(generator) and encoder(discriminator) is the exaclty sames as in [infoGAN paper](https://arxiv.org/abs/1606.0365). The number of output nodes in encoder is different. (2x z_dim for VAE, 1 for GAN)
+
+The following results can be reproduced with command:  
+```
+python main.py --dataset mnist --gan_type <TYPE> --epoch 25 --batch_size 64
+```
+
+#### Random generation
+All results are randomly sampled.
+
+*Name* | *Epoch 1* | *Epoch 10* | *Epoch 25*
+:---: | :---: | :---: | :---: |
+VAE | <img src = 'assets/mnist_results/random_generation/VAE_epoch000_test_all_classes.png' height = '230px'> | <img src = 'assets/mnist_results/random_generation/VAE_epoch009_test_all_classes.png' height = '230px'> | <img src = 'assets/mnist_results/random_generation/VAE_epoch024_test_all_classes.png' height = '230px'>
+GAN | <img src = 'assets/mnist_results/random_generation/GAN_epoch000_test_all_classes.png' height = '230px'> | <img src = 'assets/mnist_results/random_generation/GAN_epoch009_test_all_classes.png' height = '230px'> | <img src = 'assets/mnist_results/random_generation/GAN_epoch024_test_all_classes.png' height = '230px'>
+
+Results of GAN is also given to compare images generated from VAE and GAN.
+The main difference (VAE generates smooth and blurry images, otherwise GAN generates sharp and artifact images) is cleary observed from the results.
+
+#### Conditional generation
+Each row has the same noise vector and each column has the same label condition.
+
+*Name* | *Epoch 1* | *Epoch 10* | *Epoch 25*
+:---: | :---: | :---: | :---: |
+CVAE | <img src = 'assets/mnist_results/conditional_generation/CVAE_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/mnist_results/conditional_generation/CVAE_epoch009_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/mnist_results/conditional_generation/CVAE_epoch024_test_all_classes_style_by_style.png' height = '230px'>
+CGAN | <img src = 'assets/mnist_results/conditional_generation/CGAN_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/mnist_results/conditional_generation/CGAN_epoch009_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/mnist_results/conditional_generation/CGAN_epoch024_test_all_classes_style_by_style.png' height = '230px'>
+
+Results of CGAN is also given to compare images generated from CVAE and CGAN.
+
+### Results for fashion-mnist
+Comments on network architecture in mnist are also applied to here. 
+
+The following results can be reproduced with command:  
+```
+python main.py --dataset fashion-mnist --gan_type <TYPE> --epoch 40 --batch_size 64
+```
+
+#### Random generation
+All results are randomly sampled.
+
+*Name* | *Epoch 1* | *Epoch 20* | *Epoch 40*
+:---: | :---: | :---: | :---: |
+VAE | <img src = 'assets/fashion_mnist_results/random_generation/VAE_epoch000_test_all_classes.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/random_generation/VAE_epoch019_test_all_classes.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/random_generation/VAE_epoch039_test_all_classes.png' height = '230px'>
+GAN | <img src = 'assets/fashion_mnist_results/random_generation/GAN_epoch000_test_all_classes.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/random_generation/GAN_epoch019_test_all_classes.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/random_generation/GAN_epoch039_test_all_classes.png' height = '230px'>
+
+Results of GAN is also given to compare images generated from VAE and GAN.
+
+#### Conditional generation
+Each row has the same noise vector and each column has the same label condition.
+
+*Name* | *Epoch 1* | *Epoch 20* | *Epoch 40*
+:---: | :---: | :---: | :---: |
+CVAE | <img src = 'assets/fashion_mnist_results/conditional_generation/CVAE_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/CVAE_epoch019_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/CVAE_epoch039_test_all_classes_style_by_style.png' height = '230px'>
+CGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoch019_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoch039_test_all_classes_style_by_style.png' height = '230px'>
+
+Results of CGAN is also given to compare images generated from CVAE and CGAN.
+
 ### Results for celebA
 (to be added)
 
