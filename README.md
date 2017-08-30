@@ -20,7 +20,7 @@ Tensorflow implementation of various GANs and VAEs.
 <img src = 'assets/etc/GAN_structure.png' height = '600px'>
 
 ### Results for mnist
-Network architecture of generator and discriminator is the exaclty sames as in [infoGAN paper](https://arxiv.org/abs/1606.0365).  
+Network architecture of generator and discriminator is the exaclty sames as in [infoGAN paper](https://arxiv.org/abs/1606.03657).  
 For fair comparison of core ideas in all gan variants, all implementations for network architecture are kept same except EBGAN and BEGAN. Small modification is made for EBGAN/BEGAN, since those adopt auto-encoder strucutre for discriminator. But I tried to keep the capacity of discirminator.
 
 The following results can be reproduced with command:  
