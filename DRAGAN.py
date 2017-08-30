@@ -30,7 +30,7 @@ class DRAGAN(object):
             self.c_dim = 1
 
             # DRAGAN parameter
-            self.lambd = 0.25       # Be careful to choose the value
+            self.lambd = 0.25       # The higher value, the more stable, but the slower convergence
 
             # train
             self.learning_rate = 0.0002
@@ -96,7 +96,6 @@ class DRAGAN(object):
 
         # output of D for real images
         D_real, D_real_logits, _ = self.discriminator(self.inputs, is_training=True, reuse=False)
-        D_real_p, D_real_p_logits, _ = self.discriminator(self.inputs_p, is_training=True, reuse=True)
 
         # output of D for fake images
         G = self.generator(self.z, is_training=True, reuse=False)
@@ -117,7 +116,7 @@ class DRAGAN(object):
         """ DRAGAN Loss (Gradient penalty) """
         # This is borrowed from https://github.com/kodalinaveen3/DRAGAN/blob/master/DRAGAN.ipynb
         alpha = tf.random_uniform(shape=self.inputs.get_shape(), minval=0.,maxval=1.)
-        differences = self.inputs_p - self.inputs
+        differences = self.inputs_p - self.inputs  # This is different from WGAN-GP
         interpolates = self.inputs + (alpha * differences)
         D_inter,_,_=self.discriminator(interpolates, is_training=True, reuse=True)
         gradients = tf.gradients(D_inter, [interpolates])[0]

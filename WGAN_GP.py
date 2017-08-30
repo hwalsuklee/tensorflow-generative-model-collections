@@ -8,7 +8,7 @@ import numpy as np
 from ops import *
 from utils import *
 
-class WGAN(object):
+class WGAN_GP(object):
     def __init__(self, sess, epoch, batch_size, dataset_name, checkpoint_dir, result_dir, log_dir):
         self.sess = sess
         self.dataset_name = dataset_name
@@ -17,7 +17,7 @@ class WGAN(object):
         self.log_dir = log_dir
         self.epoch = epoch
         self.batch_size = batch_size
-        self.model_name = "WGAN"     # name for checkpoint
+        self.model_name = "WGAN-GP"     # name for checkpoint
 
         if dataset_name == 'mnist' or 'fashion-mnist':
             # parameters
@@ -29,7 +29,8 @@ class WGAN(object):
             self.z_dim = 62         # dimension of noise-vector
             self.c_dim = 1
 
-            # WGAN parameter
+            # WGAN_GP parameter
+            self.lambd = 0.25       # The higher value, the more stable, but the slower convergence
             self.disc_iters = 1     # The number of critic iterations for one-step of generator
 
             # train
@@ -106,6 +107,17 @@ class WGAN(object):
         # get loss for generator
         self.g_loss = - d_loss_fake
 
+        """ Gradient Penalty """
+        # This is borrowed from https://github.com/kodalinaveen3/DRAGAN/blob/master/DRAGAN.ipynb
+        alpha = tf.random_uniform(shape=self.inputs.get_shape(), minval=0.,maxval=1.)
+        differences = G - self.inputs # This is different from MAGAN
+        interpolates = self.inputs + (alpha * differences)
+        D_inter,_,_=self.discriminator(interpolates, is_training=True, reuse=True)
+        gradients = tf.gradients(D_inter, [interpolates])[0]
+        slopes = tf.sqrt(tf.reduce_sum(tf.square(gradients), reduction_indices=[1]))
+        gradient_penalty = tf.reduce_mean((slopes - 1.) ** 2)
+        self.d_loss += self.lambd * gradient_penalty
+
         """ Training """
         # divide trainable variables into a group for D and a group for G
         t_vars = tf.trainable_variables()
@@ -118,9 +130,6 @@ class WGAN(object):
                       .minimize(self.d_loss, var_list=d_vars)
             self.g_optim = tf.train.AdamOptimizer(self.learning_rate*5, beta1=self.beta1) \
                       .minimize(self.g_loss, var_list=g_vars)
-
-        # weight clipping
-        self.clip_D = [p.assign(tf.clip_by_value(p, -0.01, 0.01)) for p in d_vars]
 
         """" Testing """
         # for test
@@ -174,17 +183,19 @@ class WGAN(object):
                 batch_z = np.random.uniform(-1, 1, [self.batch_size, self.z_dim]).astype(np.float32)
 
                 # update D network
-                _, _, summary_str, d_loss = self.sess.run([self.d_optim, self.clip_D, self.d_sum, self.d_loss],
+                _, summary_str, d_loss = self.sess.run([self.d_optim, self.d_sum, self.d_loss],
                                                feed_dict={self.inputs: batch_images, self.z: batch_z})
                 self.writer.add_summary(summary_str, counter)
 
                 # update G network
-                if (counter - 1) % self.disc_iters == 0:
+                if (counter-1) % self.disc_iters == 0:
+                    batch_z = np.random.uniform(-1, 1, [self.batch_size, self.z_dim]).astype(np.float32)
                     _, summary_str, g_loss = self.sess.run([self.g_optim, self.g_sum, self.g_loss], feed_dict={self.inputs: batch_images, self.z: batch_z})
                     self.writer.add_summary(summary_str, counter)
 
-                # display training status
                 counter += 1
+
+                # display training status
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, d_loss: %.8f, g_loss: %.8f" \
                       % (epoch, idx, self.num_batches, time.time() - start_time, d_loss, g_loss))
 

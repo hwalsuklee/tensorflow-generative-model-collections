@@ -7,6 +7,7 @@ from infoGAN import infoGAN
 from ACGAN import ACGAN
 from EBGAN import EBGAN
 from WGAN import WGAN
+from WGAN_GP import WGAN_GP
 from DRAGAN import DRAGAN
 from LSGAN import LSGAN
 from BEGAN import BEGAN
@@ -26,7 +27,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description=desc)
 
     parser.add_argument('--gan_type', type=str, default='GAN',
-                        choices=['GAN', 'CGAN', 'infoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'DRAGAN', 'LSGAN', 'VAE', 'CVAE'],
+                        choices=['GAN', 'CGAN', 'infoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'WGAN_GP', 'DRAGAN', 'LSGAN', 'VAE', 'CVAE'],
                         help='The type of GAN', required=True)
     parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fashion-mnist', 'celebA'],
                         help='The name of dataset')
@@ -96,6 +97,9 @@ def main():
                         checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
         elif args.gan_type == 'WGAN':
             gan = WGAN(sess, epoch=args.epoch, batch_size=args.batch_size, dataset_name=args.dataset,
+                       checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
+        elif args.gan_type == 'WGAN_GP':
+            gan = WGAN_GP(sess, epoch=args.epoch, batch_size=args.batch_size, dataset_name=args.dataset,
                        checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
         elif args.gan_type == 'DRAGAN':
             gan = DRAGAN(sess, epoch=args.epoch, batch_size=args.batch_size, dataset_name=args.dataset,
