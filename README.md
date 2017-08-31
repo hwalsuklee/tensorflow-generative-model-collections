@@ -1,6 +1,9 @@
 # tensorflow-generative-model-collections
 Tensorflow implementation of various GANs and VAEs.
 
+## Pytorch version
+:bulb: Pytorch Version is now availabel at https://github.com/znxlwm/pytorch-generative-model-collections
+
 ## Generative Adversarial Networks (GANs)
 ### Lists  
 
