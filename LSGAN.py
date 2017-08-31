@@ -19,7 +19,7 @@ class LSGAN(object):
         self.batch_size = batch_size
         self.model_name = "LSGAN"     # name for checkpoint
 
-        if dataset_name == 'mnist' or 'fashion-mnist':
+        if dataset_name == 'mnist' or dataset_name == 'fashion-mnist':
             # parameters
             self.input_height = 28
             self.input_width = 28
