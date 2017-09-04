@@ -7,7 +7,7 @@ Pytorch Version is now availabel at https://github.com/znxlwm/pytorch-generative
 ## Generative Adversarial Networks (GANs)
 ### Lists  
 
-*Name* | *Paer Link* | *Value Function*
+*Name* | *Paper Link* | *Value Function*
 :---: | :---: | :--- |
 **GAN** | [Arxiv](https://arxiv.org/abs/1406.2661) | <img src = 'assets/equations/GAN.png' height = '70px'>
 **LSGAN**| [Arxiv](https://arxiv.org/abs/1611.04076) | <img src = 'assets/equations/LSGAN.png' height = '70px'>
