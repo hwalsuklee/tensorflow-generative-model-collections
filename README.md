@@ -151,6 +151,18 @@ CGAN | <img src = 'assets/mnist_results/conditional_generation/CGAN_epoch000_tes
 
 Results of CGAN is also given to compare images generated from CVAE and CGAN.
 
+#### Learned manifold
+
+The following results can be reproduced with command:  
+```
+python main.py --dataset mnist --gan_type VAE --epoch 25 --batch_size 64 --dim_z 2
+```
+Please notice that dimension of noise-vector z is 2.
+
+*Name* | *Epoch 1* | *Epoch 10* | *Epoch 25*
+:---: | :---: | :---: | :---: |
+VAE | <img src = 'assets/mnist_results/learned_manifold/VAE_epoch000_learned_manifold.png' height = '230px'> | <img src = 'assets/mnist_results/learned_manifold/VAE_epoch009_learned_manifold.png' height = '230px'> | <img src = 'assets/mnist_results/learned_manifold/VAE_epoch024_learned_manifold.png' height = '230px'>
+
 ### Results for fashion-mnist
 Comments on network architecture in mnist are also applied to here. 
 
@@ -178,6 +190,18 @@ CVAE | <img src = 'assets/fashion_mnist_results/conditional_generation/CVAE_epoc
 CGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoch019_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoch039_test_all_classes_style_by_style.png' height = '230px'>
 
 Results of CGAN is also given to compare images generated from CVAE and CGAN.
+
+#### Learned manifold
+
+The following results can be reproduced with command:  
+```
+python main.py --dataset fashion-mnist --gan_type VAE --epoch 25 --batch_size 64 --dim_z 2
+```
+Please notice that dimension of noise-vector z is 2.
+
+*Name* | *Epoch 1* | *Epoch 10* | *Epoch 25*
+:---: | :---: | :---: | :---: |
+VAE | <img src = 'assets/fashion_mnist_results/learned_manifold/VAE_epoch000_learned_manifold.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/learned_manifold/VAE_epoch009_learned_manifold.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/learned_manifold/VAE_epoch024_learned_manifold.png' height = '230px'>
 
 ### Results for celebA
 (to be added)
