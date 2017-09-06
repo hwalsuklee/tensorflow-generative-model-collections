@@ -9,7 +9,7 @@ from ops import *
 from utils import *
 
 class WGAN_GP(object):
-    def __init__(self, sess, epoch, batch_size, dataset_name, checkpoint_dir, result_dir, log_dir):
+    def __init__(self, sess, epoch, batch_size, z_dim, dataset_name, checkpoint_dir, result_dir, log_dir):
         self.sess = sess
         self.dataset_name = dataset_name
         self.checkpoint_dir = checkpoint_dir
@@ -26,7 +26,7 @@ class WGAN_GP(object):
             self.output_height = 28
             self.output_width = 28
 
-            self.z_dim = 62         # dimension of noise-vector
+            self.z_dim = z_dim         # dimension of noise-vector
             self.c_dim = 1
 
             # WGAN_GP parameter
@@ -207,7 +207,7 @@ class WGAN_GP(object):
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
                     manifold_w = int(np.floor(np.sqrt(tot_num_samples)))
                     save_images(samples[:manifold_h * manifold_w, :, :, :], [manifold_h, manifold_w],
-                                './' + self.result_dir + '/' + self.model_name + '_train_{:02d}_{:04d}.png'.format(
+                                './' + check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_train_{:02d}_{:04d}.png'.format(
                                     epoch, idx))
 
             # After an epoch, start_batch_id is set to zero
@@ -234,13 +234,13 @@ class WGAN_GP(object):
         samples = self.sess.run(self.fake_images, feed_dict={self.z: z_sample})
 
         save_images(samples[:image_frame_dim * image_frame_dim, :, :, :], [image_frame_dim, image_frame_dim],
-                    self.result_dir + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes.png')
+                    check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes.png')
 
     @property
     def model_dir(self):
         return "{}_{}_{}_{}".format(
-            self.dataset_name, self.batch_size,
-            self.output_height, self.output_width)
+            self.model_name, self.dataset_name,
+            self.batch_size, self.z_dim)
 
     def save(self, checkpoint_dir, step):
         checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir, self.model_name)

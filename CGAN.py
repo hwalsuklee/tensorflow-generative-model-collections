@@ -9,7 +9,7 @@ from ops import *
 from utils import *
 
 class CGAN(object):
-    def __init__(self, sess, epoch, batch_size, dataset_name, checkpoint_dir, result_dir, log_dir):
+    def __init__(self, sess, epoch, batch_size, z_dim, dataset_name, checkpoint_dir, result_dir, log_dir):
         self.sess = sess
         self.dataset_name = dataset_name
         self.checkpoint_dir = checkpoint_dir
@@ -26,7 +26,7 @@ class CGAN(object):
             self.output_height = 28
             self.output_width = 28
 
-            self.z_dim = 62         # dimension of noise-vector
+            self.z_dim = z_dim         # dimension of noise-vector
             self.y_dim = 10         # dimension of condition-vector (label)
             self.c_dim = 1
 
@@ -210,7 +210,7 @@ class CGAN(object):
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
                     manifold_w = int(np.floor(np.sqrt(tot_num_samples)))
                     save_images(samples[:manifold_h * manifold_w, :, :, :], [manifold_h, manifold_w],
-                                './' + self.result_dir + '/' + self.model_name + '_train_{:02d}_{:04d}.png'.format(
+                                './' + check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_train_{:02d}_{:04d}.png'.format(
                                     epoch, idx))
 
             # After an epoch, start_batch_id is set to zero
@@ -240,7 +240,7 @@ class CGAN(object):
         samples = self.sess.run(self.fake_images, feed_dict={self.inputs:self.test_images, self.z: z_sample, self.y: y_one_hot})
 
         save_images(samples[:image_frame_dim * image_frame_dim, :, :, :], [image_frame_dim, image_frame_dim],
-                    self.result_dir + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes.png')
+                    check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes.png')
 
         """ specified condition, random noise """
         n_styles = 10  # must be less than or equal to self.batch_size
@@ -255,7 +255,7 @@ class CGAN(object):
 
             samples = self.sess.run(self.fake_images, feed_dict={self.inputs:self.test_images, self.z: z_sample, self.y: y_one_hot})
             save_images(samples[:image_frame_dim * image_frame_dim, :, :, :], [image_frame_dim, image_frame_dim],
-                        self.result_dir + '/' + self.model_name + '_epoch%03d' % epoch + '_test_class_%d.png' % l)
+                        check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_class_%d.png' % l)
 
             samples = samples[si, :, :, :]
 
@@ -271,13 +271,13 @@ class CGAN(object):
                 canvas[s * self.y_dim + c, :, :, :] = all_samples[c * n_styles + s, :, :, :]
 
         save_images(canvas, [n_styles, self.y_dim],
-                    self.result_dir + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes_style_by_style.png')
+                    check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes_style_by_style.png')
 
     @property
     def model_dir(self):
         return "{}_{}_{}_{}".format(
-            self.dataset_name, self.batch_size,
-            self.output_height, self.output_width)
+            self.model_name, self.dataset_name,
+            self.batch_size, self.z_dim)
 
     def save(self, checkpoint_dir, step):
         checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir, self.model_name)

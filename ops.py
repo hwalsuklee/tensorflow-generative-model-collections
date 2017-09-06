@@ -17,7 +17,13 @@ else:
         return tf.concat(tensors, axis, *args, **kwargs)
 
 def bn(x, is_training, scope):
-    return tf.layers.batch_normalization(x, epsilon = 1e-5, momentum = 0.9, training = is_training, name = scope)
+    return tf.contrib.layers.batch_norm(x,
+                                        decay=0.9,
+                                        updates_collections=None,
+                                        epsilon=1e-5,
+                                        scale=True,
+                                        is_training=is_training,
+                                        scope=scope)
 
 def conv_out_size_same(size, stride):
     return int(math.ceil(float(size) / float(stride)))

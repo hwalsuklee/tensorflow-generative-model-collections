@@ -11,7 +11,7 @@ from utils import *
 import prior_factory as prior
 
 class VAE(object):
-    def __init__(self, sess, epoch, batch_size, dataset_name, checkpoint_dir, result_dir, log_dir):
+    def __init__(self, sess, epoch, batch_size, z_dim, dataset_name, checkpoint_dir, result_dir, log_dir):
         self.sess = sess
         self.dataset_name = dataset_name
         self.checkpoint_dir = checkpoint_dir
@@ -28,7 +28,7 @@ class VAE(object):
             self.output_height = 28
             self.output_width = 28
 
-            self.z_dim = 62         # dimension of noise-vector
+            self.z_dim = z_dim         # dimension of noise-vector
             self.c_dim = 1
 
             # train
@@ -95,10 +95,10 @@ class VAE(object):
 
         """ Loss Function """
         # encoding
-        mu, sigma = self.encoder(self.inputs, is_training=True, reuse=False)
+        self.mu, sigma = self.encoder(self.inputs, is_training=True, reuse=False)        
 
         # sampling by re-parameterization technique
-        z = mu + sigma * tf.random_normal(tf.shape(mu), 0, 1, dtype=tf.float32)
+        z = self.mu + sigma * tf.random_normal(tf.shape(self.mu), 0, 1, dtype=tf.float32)
 
         # decoding
         out = self.decoder(z, is_training=True, reuse=False)
@@ -107,7 +107,7 @@ class VAE(object):
         # loss
         marginal_likelihood = tf.reduce_sum(self.inputs * tf.log(self.out) + (1 - self.inputs) * tf.log(1 - self.out),
                                             [1, 2])
-        KL_divergence = 0.5 * tf.reduce_sum(tf.square(mu) + tf.square(sigma) - tf.log(1e-8 + tf.square(sigma)) - 1, [1])
+        KL_divergence = 0.5 * tf.reduce_sum(tf.square(self.mu) + tf.square(sigma) - tf.log(1e-8 + tf.square(sigma)) - 1, [1])
 
         self.neg_loglikelihood = -tf.reduce_mean(marginal_likelihood)
         self.KL_divergence = tf.reduce_mean(KL_divergence)
@@ -172,7 +172,7 @@ class VAE(object):
                 batch_images = self.data_X[idx*self.batch_size:(idx+1)*self.batch_size]
                 batch_z = prior.gaussian(self.batch_size, self.z_dim)
 
-                # update D network
+                # update autoencoder
                 _, summary_str, loss, nll_loss, kl_loss = self.sess.run([self.optim, self.merged_summary_op, self.loss, self.neg_loglikelihood, self.KL_divergence],
                                                feed_dict={self.inputs: batch_images, self.z: batch_z})
                 self.writer.add_summary(summary_str, counter)
@@ -191,7 +191,7 @@ class VAE(object):
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
                     manifold_w = int(np.floor(np.sqrt(tot_num_samples)))
                     save_images(samples[:manifold_h * manifold_w, :, :, :], [manifold_h, manifold_w],
-                                './' + self.result_dir + '/' + self.model_name + '_train_{:02d}_{:04d}.png'.format(
+                                './' + check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_train_{:02d}_{:04d}.png'.format(
                                     epoch, idx))
 
             # After an epoch, start_batch_id is set to zero
@@ -218,13 +218,38 @@ class VAE(object):
         samples = self.sess.run(self.fake_images, feed_dict={self.z: z_sample})
 
         save_images(samples[:image_frame_dim * image_frame_dim, :, :, :], [image_frame_dim, image_frame_dim],
-                    self.result_dir + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes.png')
+                    check_folder(
+                        self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes.png')
+
+        """ learned manifold """
+        if self.z_dim == 2:
+            assert self.z_dim == 2
+
+            z_tot = None
+            id_tot = None
+            for idx in range(0, 100):
+                #randomly sampling
+                id = np.random.randint(0,self.num_batches)
+                batch_images = self.data_X[id * self.batch_size:(id + 1) * self.batch_size]
+                batch_labels = self.data_y[id * self.batch_size:(id + 1) * self.batch_size]
+
+                z = self.sess.run(self.mu, feed_dict={self.inputs: batch_images})
+
+                if idx == 0:
+                    z_tot = z
+                    id_tot = batch_labels
+                else:
+                    z_tot = np.concatenate((z_tot, z), axis=0)
+                    id_tot = np.concatenate((id_tot, batch_labels), axis=0)
+
+            save_scattered_image(z_tot, id_tot, -4, 4, name=check_folder(
+                self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_learned_manifold.png')
 
     @property
     def model_dir(self):
         return "{}_{}_{}_{}".format(
-            self.dataset_name, self.batch_size,
-            self.output_height, self.output_width)
+            self.model_name, self.dataset_name,
+            self.batch_size, self.z_dim)
 
     def save(self, checkpoint_dir, step):
         checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir, self.model_name)

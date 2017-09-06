@@ -9,6 +9,7 @@ import scipy.misc
 import numpy as np
 from time import gmtime, strftime
 from six.moves import xrange
+import matplotlib.pyplot as plt
 import os, gzip
 
 import tensorflow as tf
@@ -53,6 +54,11 @@ def load_mnist(dataset_name):
         y_vec[i, y[i]] = 1.0
 
     return X / 255., y_vec
+
+def check_folder(log_dir):
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    return log_dir
 
 def show_all_variables():
     model_vars = tf.trainable_variables()
@@ -115,3 +121,29 @@ def transform(image, input_height, input_width, resize_height=64, resize_width=6
 
 def inverse_transform(images):
     return (images+1.)/2.
+
+""" Drawing Tools """
+# borrowed from https://github.com/ykwon0407/variational_autoencoder/blob/master/variational_bayes.ipynb
+def save_scattered_image(z, id, z_range_x, z_range_y, name='scattered_image.jpg'):
+    N = 10
+    plt.figure(figsize=(8, 6))
+    plt.scatter(z[:, 0], z[:, 1], c=np.argmax(id, 1), marker='o', edgecolor='none', cmap=discrete_cmap(N, 'jet'))
+    plt.colorbar(ticks=range(N))
+    axes = plt.gca()
+    axes.set_xlim([-z_range_x, z_range_x])
+    axes.set_ylim([-z_range_y, z_range_y])
+    plt.grid(True)
+    plt.savefig(name)
+
+# borrowed from https://gist.github.com/jakevdp/91077b0cae40f8f8244a
+def discrete_cmap(N, base_cmap=None):
+    """Create an N-bin discrete colormap from the specified input map"""
+
+    # Note that if base_cmap is a string or None, you can simply do
+    #    return plt.cm.get_cmap(base_cmap, N)
+    # The following works for string, None, or a colormap instance:
+
+    base = plt.cm.get_cmap(base_cmap)
+    color_list = base(np.linspace(0, 1, N))
+    cmap_name = base.name + str(N)
+    return base.from_list(cmap_name, color_list, N)
