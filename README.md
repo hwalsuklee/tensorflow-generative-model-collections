@@ -93,7 +93,7 @@ CGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoc
 ACGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/ACGAN_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/ACGAN_epoch019_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/ACGAN_epoch039_test_all_classes_style_by_style.png' height = '230px'>
 infoGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/infoGAN_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/infoGAN_epoch019_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/infoGAN_epoch039_test_all_classes_style_by_style.png' height = '230px'>
 
-Without hyper-parameter tuning from mnist-version, ACGAN/infoGAN does not work well as compared iwth CGAN.  
+Without hyper-parameter tuning from mnist-version, ACGAN/infoGAN does not work well as compared with CGAN.  
 ACGAN tends to fall into mode-collapse.  
 infoGAN tends to ignore noise-vector. It results in that various style within the same class can not be represented.
 
