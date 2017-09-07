@@ -191,7 +191,6 @@ class infoGAN(object):
 
         # graph inputs for visualize training results
         self.sample_z = np.random.uniform(-1, 1, size=(self.batch_size , self.z_dim))
-        self.test_images = self.data_X[0:self.batch_size]
         self.test_labels = self.data_y[0:self.batch_size]
         self.test_codes = np.concatenate((self.test_labels, np.zeros([self.batch_size, self.len_continuous_code])),
                                            axis=1)
@@ -203,17 +202,17 @@ class infoGAN(object):
         self.writer = tf.summary.FileWriter(self.log_dir + '/' + self.model_name, self.sess.graph)
 
         # restore check-point if it exits
-        # could_load, checkpoint_counter = self.load(self.checkpoint_dir)
-        # if could_load:
-        #     start_epoch = (int)(checkpoint_counter / self.num_batches)
-        #     start_batch_id = checkpoint_counter - start_epoch * self.num_batches
-        #     counter = checkpoint_counter
-        #     print(" [*] Load SUCCESS")
-        # else:
-        start_epoch = 0
-        start_batch_id = 0
-        counter = 1
-        print(" [!] Load failed...")
+        could_load, checkpoint_counter = self.load(self.checkpoint_dir)
+        if could_load:
+            start_epoch = (int)(checkpoint_counter / self.num_batches)
+            start_batch_id = checkpoint_counter - start_epoch * self.num_batches
+            counter = checkpoint_counter
+            print(" [*] Load SUCCESS")
+        else:
+            start_epoch = 0
+            start_batch_id = 0
+            counter = 1
+            print(" [!] Load failed...")
 
         # loop for epoch
         start_time = time.time()
@@ -242,7 +241,7 @@ class infoGAN(object):
                                                                   self.z: batch_z})
                 self.writer.add_summary(summary_str, counter)
 
-                # update G network
+                # update G and Q network
                 _, summary_str_g, g_loss, _, summary_str_q, q_loss = self.sess.run(
                     [self.g_optim, self.g_sum, self.g_loss, self.q_optim, self.q_sum, self.q_loss],
                     feed_dict={self.inputs: batch_images, self.z: batch_z, self.y: batch_codes})
@@ -257,7 +256,7 @@ class infoGAN(object):
                 # save training results for every 300 steps
                 if np.mod(counter, 300) == 0:
                     samples = self.sess.run(self.fake_images,
-                                            feed_dict={self.z: self.sample_z, self.inputs: self.test_images, self.y: self.test_codes})
+                                            feed_dict={self.z: self.sample_z, self.y: self.test_codes})
                     tot_num_samples = min(self.sample_num, self.batch_size)
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
                     manifold_w = int(np.floor(np.sqrt(tot_num_samples)))
@@ -289,7 +288,7 @@ class infoGAN(object):
 
         z_sample = np.random.uniform(-1, 1, size=(self.batch_size, self.z_dim))
 
-        samples = self.sess.run(self.fake_images, feed_dict={self.inputs:self.test_images, self.z: z_sample, self.y: y_one_hot})
+        samples = self.sess.run(self.fake_images, feed_dict={self.z: z_sample, self.y: y_one_hot})
 
         save_images(samples[:image_frame_dim * image_frame_dim, :, :, :], [image_frame_dim, image_frame_dim],
                     check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes.png')
@@ -305,7 +304,7 @@ class infoGAN(object):
             y_one_hot = np.zeros((self.batch_size, self.y_dim))
             y_one_hot[np.arange(self.batch_size), y] = 1
 
-            samples = self.sess.run(self.fake_images, feed_dict={self.inputs:self.test_images, self.z: z_sample, self.y: y_one_hot})
+            samples = self.sess.run(self.fake_images, feed_dict={self.z: z_sample, self.y: y_one_hot})
             # save_images(samples[:image_frame_dim * image_frame_dim, :, :, :], [image_frame_dim, image_frame_dim],
             #             check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_class_%d.png' % l)
 
@@ -348,7 +347,7 @@ class infoGAN(object):
             y_one_hot[np.arange(image_frame_dim*image_frame_dim), self.len_discrete_code+1] = c2
 
             samples = self.sess.run(self.fake_images,
-                                    feed_dict={ self.z: z_fixed, self.y: y_one_hot, self.inputs: self.test_images})
+                                    feed_dict={ self.z: z_fixed, self.y: y_one_hot})
 
             save_images(samples[:image_frame_dim * image_frame_dim, :, :, :], [image_frame_dim, image_frame_dim],
                         check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_class_c1c2_%d.png' % l)

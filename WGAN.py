@@ -143,7 +143,6 @@ class WGAN(object):
 
         # graph inputs for visualize training results
         self.sample_z = np.random.uniform(-1, 1, size=(self.batch_size , self.z_dim))
-        self.test_images = self.data_X[0:self.batch_size]
 
         # saver to save model
         self.saver = tf.train.Saver()
@@ -180,7 +179,7 @@ class WGAN(object):
 
                 # update G network
                 if (counter - 1) % self.disc_iters == 0:
-                    _, summary_str, g_loss = self.sess.run([self.g_optim, self.g_sum, self.g_loss], feed_dict={self.inputs: batch_images, self.z: batch_z})
+                    _, summary_str, g_loss = self.sess.run([self.g_optim, self.g_sum, self.g_loss], feed_dict={self.z: batch_z})
                     self.writer.add_summary(summary_str, counter)
 
                 # display training status
@@ -191,7 +190,7 @@ class WGAN(object):
                 # save training results for every 300 steps
                 if np.mod(counter, 300) == 0:
                     samples = self.sess.run(self.fake_images,
-                                            feed_dict={self.z: self.sample_z, self.inputs: self.test_images})
+                                            feed_dict={self.z: self.sample_z})
                     tot_num_samples = min(self.sample_num, self.batch_size)
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
                     manifold_w = int(np.floor(np.sqrt(tot_num_samples)))

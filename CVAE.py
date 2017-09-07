@@ -154,7 +154,6 @@ class CVAE(object):
 
         # graph inputs for visualize training results
         self.sample_z = prior.gaussian(self.batch_size, self.z_dim)
-        self.test_images = self.data_X[0:self.batch_size]
         self.test_labels = self.data_y[0:self.batch_size]
 
         # saver to save model
@@ -199,7 +198,7 @@ class CVAE(object):
                 # save training results for every 300 steps
                 if np.mod(counter, 300) == 0:
                     samples = self.sess.run(self.fake_images,
-                                            feed_dict={self.z: self.sample_z, self.inputs: self.test_images, self.y: self.test_labels})
+                                            feed_dict={self.z: self.sample_z, self.y: self.test_labels})
                     tot_num_samples = min(self.sample_num, self.batch_size)
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
                     manifold_w = int(np.floor(np.sqrt(tot_num_samples)))
@@ -231,7 +230,7 @@ class CVAE(object):
 
         z_sample = prior.gaussian(self.batch_size, self.z_dim)
 
-        samples = self.sess.run(self.fake_images, feed_dict={self.inputs:self.test_images, self.z: z_sample, self.y: y_one_hot})
+        samples = self.sess.run(self.fake_images, feed_dict={self.z: z_sample, self.y: y_one_hot})
 
         save_images(samples[:image_frame_dim * image_frame_dim, :, :, :], [image_frame_dim, image_frame_dim],
                     check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes.png')
@@ -247,7 +246,7 @@ class CVAE(object):
             y_one_hot = np.zeros((self.batch_size, self.y_dim))
             y_one_hot[np.arange(self.batch_size), y] = 1
 
-            samples = self.sess.run(self.fake_images, feed_dict={self.inputs:self.test_images, self.z: z_sample, self.y: y_one_hot})
+            samples = self.sess.run(self.fake_images, feed_dict={self.z: z_sample, self.y: y_one_hot})
             save_images(samples[:image_frame_dim * image_frame_dim, :, :, :], [image_frame_dim, image_frame_dim],
                         check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_class_%d.png' % l)
 

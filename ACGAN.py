@@ -185,9 +185,7 @@ class ACGAN(object):
 
         # graph inputs for visualize training results
         self.sample_z = np.random.uniform(-1, 1, size=(self.batch_size, self.z_dim))
-        self.test_images = self.data_X[0:self.batch_size]
-        self.test_labels = self.data_y[0:self.batch_size]
-        self.test_codes = self.test_labels
+        self.test_codes = self.data_y[0:self.batch_size]
 
         # saver to save model
         self.saver = tf.train.Saver()
@@ -215,9 +213,7 @@ class ACGAN(object):
             # get batch data
             for idx in range(start_batch_id, self.num_batches):
                 batch_images = self.data_X[idx*self.batch_size:(idx+1)*self.batch_size]
-                batch_labels = self.data_y[idx * self.batch_size:(idx + 1) * self.batch_size]
-
-                batch_codes = batch_labels
+                batch_codes = self.data_y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
                 batch_z = np.random.uniform(-1, 1, [self.batch_size, self.z_dim]).astype(np.float32)
 
@@ -227,10 +223,10 @@ class ACGAN(object):
                                                                   self.z: batch_z})
                 self.writer.add_summary(summary_str, counter)
 
-                # update G network
+                # update G & Q network
                 _, summary_str_g, g_loss, _, summary_str_q, q_loss = self.sess.run(
                     [self.g_optim, self.g_sum, self.g_loss, self.q_optim, self.q_sum, self.q_loss],
-                    feed_dict={self.inputs: batch_images, self.z: batch_z, self.y: batch_codes})
+                    feed_dict={self.z: batch_z, self.y: batch_codes, self.inputs: batch_images})
                 self.writer.add_summary(summary_str_g, counter)
                 self.writer.add_summary(summary_str_q, counter)
 
@@ -242,7 +238,7 @@ class ACGAN(object):
                 # save training results for every 300 steps
                 if np.mod(counter, 300) == 0:
                     samples = self.sess.run(self.fake_images,
-                                            feed_dict={self.z: self.sample_z, self.inputs: self.test_images, self.y: self.test_codes})
+                                            feed_dict={self.z: self.sample_z, self.y: self.test_codes})
                     tot_num_samples = min(self.sample_num, self.batch_size)
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
                     manifold_w = int(np.floor(np.sqrt(tot_num_samples)))
@@ -273,7 +269,7 @@ class ACGAN(object):
         y_one_hot = np.zeros((self.batch_size, self.y_dim))
         y_one_hot[np.arange(self.batch_size), y] = 1
 
-        samples = self.sess.run(self.fake_images, feed_dict={self.inputs:self.test_images, self.z: z_sample, self.y: y_one_hot})
+        samples = self.sess.run(self.fake_images, feed_dict={self.z: z_sample, self.y: y_one_hot})
 
         save_images(samples[:image_frame_dim*image_frame_dim,:,:,:], [image_frame_dim, image_frame_dim],
                     check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_all_classes.png')
@@ -289,7 +285,7 @@ class ACGAN(object):
             y_one_hot = np.zeros((self.batch_size, self.y_dim))
             y_one_hot[np.arange(self.batch_size), y] = 1
 
-            samples = self.sess.run(self.fake_images, feed_dict={self.inputs:self.test_images, self.z: z_sample, self.y: y_one_hot})
+            samples = self.sess.run(self.fake_images, feed_dict={self.z: z_sample, self.y: y_one_hot})
             save_images(samples[:image_frame_dim*image_frame_dim,:,:,:], [image_frame_dim, image_frame_dim],
                         check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_test_class_%d.png' % l)
 

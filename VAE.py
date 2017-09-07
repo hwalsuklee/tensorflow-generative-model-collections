@@ -142,7 +142,6 @@ class VAE(object):
 
         # graph inputs for visualize training results
         self.sample_z = prior.gaussian(self.batch_size, self.z_dim)
-        self.test_images = self.data_X[0:self.batch_size]
 
         # saver to save model
         self.saver = tf.train.Saver()
@@ -185,7 +184,7 @@ class VAE(object):
                 # save training results for every 300 steps
                 if np.mod(counter, 300) == 0:
                     samples = self.sess.run(self.fake_images,
-                                            feed_dict={self.z: self.sample_z, self.inputs: self.test_images})
+                                            feed_dict={self.z: self.sample_z})
 
                     tot_num_samples = min(self.sample_num, self.batch_size)
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
