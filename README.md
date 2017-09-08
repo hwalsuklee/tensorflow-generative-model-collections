@@ -35,7 +35,7 @@ python main.py --dataset mnist --gan_type <TYPE> --epoch 25 --batch_size 64
 #### Random generation
 All results are randomly sampled.
 
-*Name* | *Epoch 2* | *Epoch 10* | *Epoch 24*
+*Name* | *Epoch 2* | *Epoch 10* | *Epoch 25*
 :---: | :---: | :---: | :---: |
 GAN | <img src = 'assets/mnist_results/random_generation/GAN_epoch001_test_all_classes.png' height = '230px'> | <img src = 'assets/mnist_results/random_generation/GAN_epoch009_test_all_classes.png' height = '230px'> | <img src = 'assets/mnist_results/random_generation/GAN_epoch024_test_all_classes.png' height = '230px'>
 LSGAN | <img src = 'assets/mnist_results/random_generation/LSGAN_epoch001_test_all_classes.png' height = '230px'> | <img src = 'assets/mnist_results/random_generation/LSGAN_epoch009_test_all_classes.png' height = '230px'> | <img src = 'assets/mnist_results/random_generation/LSGAN_epoch024_test_all_classes.png' height = '230px'>
