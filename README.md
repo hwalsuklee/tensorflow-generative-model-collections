@@ -221,7 +221,7 @@ The following shows basic folder structure.
 │       ├── t10k-labels-idx1-ubyte.gz
 │       ├── train-images-idx3-ubyte.gz
 │       └── train-labels-idx1-ubyte.gz
-├── GAN.py # vainilla GAN
+├── GAN.py # vanilla GAN
 ├── ops.py # some operations on layer
 ├── utils.py # utils
 ├── logs # log files for tensorboard to be saved here
