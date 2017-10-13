@@ -11,6 +11,8 @@ from utils import *
 import prior_factory as prior
 
 class CVAE(object):
+    model_name = "CVAE"     # name for checkpoint
+
     def __init__(self, sess, epoch, batch_size, z_dim, dataset_name, checkpoint_dir, result_dir, log_dir):
         self.sess = sess
         self.dataset_name = dataset_name
@@ -19,7 +21,6 @@ class CVAE(object):
         self.log_dir = log_dir
         self.epoch = epoch
         self.batch_size = batch_size
-        self.model_name = "CVAE"     # name for checkpoint
 
         if dataset_name == 'mnist' or dataset_name == 'fashion-mnist':
             # parameters
