@@ -56,22 +56,13 @@ def check_args(args):
     check_folder(args.log_dir)
 
     # --epoch
-    try:
-        assert args.epoch >= 1
-    except:
-        print('number of epochs must be larger than or equal to one')
+    assert args.epoch >= 1, 'number of epochs must be larger than or equal to one'
 
     # --batch_size
-    try:
-        assert args.batch_size >= 1
-    except:
-        print('batch size must be larger than or equal to one')
+    assert args.batch_size >= 1, 'batch size must be larger than or equal to one'
 
     # --z_dim
-    try:
-        assert args.z_dim >= 1
-    except:
-        print('dimension of noise vector must be larger than or equal to one')
+    assert args.z_dim >= 1, 'dimension of noise vector must be larger than or equal to one'
 
     return args
 
@@ -83,45 +74,23 @@ def main():
       exit()
 
     # open session
+    models = [GAN, CGAN, infoGAN, ACGAN, EBGAN, WGAN, WGAN_GP, DRAGAN,
+              LSGAN, BEGAN, VAE, CVAE]
     with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
         # declare instance for GAN
-        if args.gan_type == 'GAN':
-            gan = GAN(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                      checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'CGAN':
-            gan = CGAN(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                       checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'ACGAN':
-            gan = ACGAN(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                        checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'infoGAN':
-            gan = infoGAN(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                          checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'EBGAN':
-            gan = EBGAN(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                        checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'WGAN':
-            gan = WGAN(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                       checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'WGAN_GP':
-            gan = WGAN_GP(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                       checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'DRAGAN':
-            gan = DRAGAN(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                       checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'LSGAN':
-            gan = LSGAN(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                         checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'BEGAN':
-            gan = BEGAN(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                        checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'VAE':
-            gan = VAE(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                        checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        elif args.gan_type == 'CVAE':
-            gan = CVAE(sess, epoch=args.epoch, batch_size=args.batch_size, z_dim=args.z_dim, dataset_name=args.dataset,
-                        checkpoint_dir=args.checkpoint_dir, result_dir=args.result_dir, log_dir=args.log_dir)
-        else:
+
+        gan = None
+        for model in models:
+            if args.gan_type == model.model_name:
+                gan = model(sess,
+                            epoch=args.epoch,
+                            batch_size=args.batch_size,
+                            z_dim=args.z_dim,
+                            dataset_name=args.dataset,
+                            checkpoint_dir=args.checkpoint_dir,
+                            result_dir=args.result_dir,
+                            log_dir=args.log_dir)
+        if gan is None:
             raise Exception("[!] There is no option for " + args.gan_type)
 
         # build graph

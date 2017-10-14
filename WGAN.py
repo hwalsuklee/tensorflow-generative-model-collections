@@ -9,6 +9,8 @@ from ops import *
 from utils import *
 
 class WGAN(object):
+    model_name = "WGAN"     # name for checkpoint
+
     def __init__(self, sess, epoch, batch_size, z_dim, dataset_name, checkpoint_dir, result_dir, log_dir):
         self.sess = sess
         self.dataset_name = dataset_name
@@ -17,7 +19,6 @@ class WGAN(object):
         self.log_dir = log_dir
         self.epoch = epoch
         self.batch_size = batch_size
-        self.model_name = "WGAN"     # name for checkpoint
 
         if dataset_name == 'mnist' or dataset_name == 'fashion-mnist':
             # parameters
