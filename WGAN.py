@@ -99,8 +99,8 @@ class WGAN(object):
         D_fake, D_fake_logits, _ = self.discriminator(G, is_training=True, reuse=True)
 
         # get loss for discriminator
-        d_loss_real = - tf.reduce_mean(D_real)
-        d_loss_fake = tf.reduce_mean(D_fake)
+        d_loss_real = - tf.reduce_mean(D_real_logits)
+        d_loss_fake = tf.reduce_mean(D_fake_logits)
 
         self.d_loss = d_loss_real + d_loss_fake
 

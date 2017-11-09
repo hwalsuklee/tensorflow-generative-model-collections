@@ -9,7 +9,7 @@ from ops import *
 from utils import *
 
 class WGAN_GP(object):
-    model_name = "WGAN-GP"     # name for checkpoint
+    model_name = "WGAN_GP"     # name for checkpoint
 
     def __init__(self, sess, epoch, batch_size, z_dim, dataset_name, checkpoint_dir, result_dir, log_dir):
         self.sess = sess
@@ -100,8 +100,8 @@ class WGAN_GP(object):
         D_fake, D_fake_logits, _ = self.discriminator(G, is_training=True, reuse=True)
 
         # get loss for discriminator
-        d_loss_real = - tf.reduce_mean(D_real)
-        d_loss_fake = tf.reduce_mean(D_fake)
+        d_loss_real = - tf.reduce_mean(D_real_logits)
+        d_loss_fake = tf.reduce_mean(D_fake_logits)
 
         self.d_loss = d_loss_real + d_loss_fake
 
@@ -113,7 +113,7 @@ class WGAN_GP(object):
         alpha = tf.random_uniform(shape=self.inputs.get_shape(), minval=0.,maxval=1.)
         differences = G - self.inputs # This is different from MAGAN
         interpolates = self.inputs + (alpha * differences)
-        D_inter,_,_=self.discriminator(interpolates, is_training=True, reuse=True)
+        _,D_inter,_=self.discriminator(interpolates, is_training=True, reuse=True)
         gradients = tf.gradients(D_inter, [interpolates])[0]
         slopes = tf.sqrt(tf.reduce_sum(tf.square(gradients), reduction_indices=[1]))
         gradient_penalty = tf.reduce_mean((slopes - 1.) ** 2)

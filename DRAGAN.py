@@ -119,7 +119,7 @@ class DRAGAN(object):
         alpha = tf.random_uniform(shape=self.inputs.get_shape(), minval=0.,maxval=1.)
         differences = self.inputs_p - self.inputs  # This is different from WGAN-GP
         interpolates = self.inputs + (alpha * differences)
-        D_inter,_,_=self.discriminator(interpolates, is_training=True, reuse=True)
+        _,D_inter,_=self.discriminator(interpolates, is_training=True, reuse=True)
         gradients = tf.gradients(D_inter, [interpolates])[0]
         slopes = tf.sqrt(tf.reduce_sum(tf.square(gradients), reduction_indices=[1]))
         gradient_penalty = tf.reduce_mean((slopes - 1.) ** 2)
