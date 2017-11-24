@@ -114,7 +114,8 @@ class BEGAN(object):
         self.M = D_real_err + tf.abs(self.gamma*D_real_err - D_fake_err)
 
         # operation for updating k
-        self.update_k = self.k.assign(self.k + self.lamda*(self.gamma*D_real_err - D_fake_err))
+        self.update_k = self.k.assign(
+            tf.clip_by_value(self.k + self.lamda*(self.gamma*D_real_err - D_fake_err), 0, 1))
 
         """ Training """
         # divide trainable variables into a group for D and a group for G
