@@ -100,13 +100,13 @@ class LSGAN(object):
         D_fake, D_fake_logits, _ = self.discriminator(G, is_training=True, reuse=True)
 
         # get loss for discriminator
-        d_loss_real = tf.reduce_mean(self.mse_loss(D_real, tf.ones_like(D_real)))
-        d_loss_fake = tf.reduce_mean(self.mse_loss(D_fake, tf.zeros_like(D_fake)))
+        d_loss_real = tf.reduce_mean(self.mse_loss(D_real_logits, tf.ones_like(D_real_logits)))
+        d_loss_fake = tf.reduce_mean(self.mse_loss(D_fake_logits, tf.zeros_like(D_fake_logits)))
 
         self.d_loss = 0.5*(d_loss_real + d_loss_fake)
 
         # get loss for generator
-        self.g_loss = tf.reduce_mean(self.mse_loss(D_fake, tf.ones_like(D_fake)))
+        self.g_loss = tf.reduce_mean(self.mse_loss(D_fake_logits, tf.ones_like(D_fake_logits)))
 
         """ Training """
         # divide trainable variables into a group for D and a group for G
