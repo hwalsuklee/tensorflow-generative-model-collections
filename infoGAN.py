@@ -143,7 +143,7 @@ class infoGAN(object):
         q_disc_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=disc_code_est, labels=disc_code_tg))
 
         # continuous code : gaussian
-        cont_code_est = code_fake[:, self.len_discrete_code:]
+        cont_code_est = code_logit_fake[:, self.len_discrete_code:]
         cont_code_tg = self.y[:, self.len_discrete_code:]
         q_cont_loss = tf.reduce_mean(tf.reduce_sum(tf.square(cont_code_tg - cont_code_est), axis=1))
 
