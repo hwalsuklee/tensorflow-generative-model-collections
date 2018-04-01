@@ -55,7 +55,7 @@ class VAE(object):
 
             net = lrelu(conv2d(x, 64, 4, 4, 2, 2, name='en_conv1'))
             net = lrelu(bn(conv2d(net, 128, 4, 4, 2, 2, name='en_conv2'), is_training=is_training, scope='en_bn2'))
-            net = tf.reshape(net, [self.batch_size, -1])
+            net = tf.contrib.layers.flatten(net)
             net = lrelu(bn(linear(net, 1024, scope='en_fc3'), is_training=is_training, scope='en_bn3'))
             gaussian_params = linear(net, 2 * self.z_dim, scope='en_fc4')
 
@@ -74,25 +74,24 @@ class VAE(object):
         with tf.variable_scope("decoder", reuse=reuse):
             net = tf.nn.relu(bn(linear(z, 1024, scope='de_fc1'), is_training=is_training, scope='de_bn1'))
             net = tf.nn.relu(bn(linear(net, 128 * 7 * 7, scope='de_fc2'), is_training=is_training, scope='de_bn2'))
-            net = tf.reshape(net, [self.batch_size, 7, 7, 128])
+            net = tf.reshape(net, [-1, 7, 7, 128])
             net = tf.nn.relu(
-                bn(deconv2d(net, [self.batch_size, 14, 14, 64], 4, 4, 2, 2, name='de_dc3'), is_training=is_training,
+                bn(deconv2d(net, [None, 14, 14, 64], 4, 4, 2, 2, name='de_dc3'), is_training=is_training,
                    scope='de_bn3'))
 
-            out = tf.nn.sigmoid(deconv2d(net, [self.batch_size, 28, 28, 1], 4, 4, 2, 2, name='de_dc4'))
+            out = tf.nn.sigmoid(deconv2d(net, [None, 28, 28, 1], 4, 4, 2, 2, name='de_dc4'))
             return out
 
     def build_model(self):
         # some parameters
         image_dims = [self.input_height, self.input_width, self.c_dim]
-        bs = self.batch_size
 
         """ Graph Input """
         # images
-        self.inputs = tf.placeholder(tf.float32, [bs] + image_dims, name='real_images')
+        self.inputs = tf.placeholder(tf.float32, [None] + image_dims, name='real_images')
 
         # noises
-        self.z = tf.placeholder(tf.float32, [bs, self.z_dim], name='z')
+        self.z = tf.placeholder(tf.float32, [None, self.z_dim], name='z')
 
         """ Loss Function """
         # encoding
@@ -247,9 +246,8 @@ class VAE(object):
 
     @property
     def model_dir(self):
-        return "{}_{}_{}_{}".format(
-            self.model_name, self.dataset_name,
-            self.batch_size, self.z_dim)
+        return "{}_{}_{}".format(
+            self.model_name, self.dataset_name, self.z_dim)
 
     def save(self, checkpoint_dir, step):
         checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir, self.model_name)

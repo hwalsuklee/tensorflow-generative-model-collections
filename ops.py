@@ -41,14 +41,19 @@ def conv2d(input_, output_dim, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.02, name="co
         conv = tf.nn.conv2d(input_, w, strides=[1, d_h, d_w, 1], padding='SAME')
 
         biases = tf.get_variable('biases', [output_dim], initializer=tf.constant_initializer(0.0))
-        conv = tf.reshape(tf.nn.bias_add(conv, biases), conv.get_shape())
+        conv = tf.nn.bias_add(conv, biases)
 
         return conv
 
 def deconv2d(input_, output_shape, k_h=5, k_w=5, d_h=2, d_w=2, name="deconv2d", stddev=0.02, with_w=False):
     with tf.variable_scope(name):
+        output_shape_chan = output_shape[-1]
+        if output_shape[0] is None:
+            batch_size = tf.shape(input_)[0]
+            output_shape = tf.stack([batch_size] + output_shape[1:])
+
         # filter : [height, width, output_channels, in_channels]
-        w = tf.get_variable('w', [k_h, k_w, output_shape[-1], input_.get_shape()[-1]],
+        w = tf.get_variable('w', [k_h, k_w, output_shape_chan, input_.get_shape()[-1]],
                             initializer=tf.random_normal_initializer(stddev=stddev))
 
         try:
@@ -58,8 +63,8 @@ def deconv2d(input_, output_shape, k_h=5, k_w=5, d_h=2, d_w=2, name="deconv2d", 
         except AttributeError:
             deconv = tf.nn.deconv2d(input_, w, output_shape=output_shape, strides=[1, d_h, d_w, 1])
 
-        biases = tf.get_variable('biases', [output_shape[-1]], initializer=tf.constant_initializer(0.0))
-        deconv = tf.reshape(tf.nn.bias_add(deconv, biases), deconv.get_shape())
+        biases = tf.get_variable('biases', [output_shape_chan], initializer=tf.constant_initializer(0.0))
+        deconv = tf.nn.bias_add(deconv, biases)
 
         if with_w:
             return deconv, w, biases
