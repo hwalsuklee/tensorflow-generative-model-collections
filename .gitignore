@@ -1,0 +1,7 @@
+__pycache__
+GANs/*.pyc
+checkpoint
+logs
+data/minist
+
+results
