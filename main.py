@@ -1,23 +1,23 @@
 import os
 
 ## GAN Variants
-from GAN import GAN
-from CGAN import CGAN
-from infoGAN import infoGAN
-from ACGAN import ACGAN
-from EBGAN import EBGAN
-from WGAN import WGAN
-from WGAN_GP import WGAN_GP
-from DRAGAN import DRAGAN
-from LSGAN import LSGAN
-from BEGAN import BEGAN
+from GANs.GAN import GAN
+from GANs.CGAN import CGAN
+from GANs.infoGAN import infoGAN
+from GANs.ACGAN import ACGAN
+from GANs.EBGAN import EBGAN
+from GANs.WGAN import WGAN
+from GANs.WGAN_GP import WGAN_GP
+from GANs.DRAGAN import DRAGAN
+from GANs.LSGAN import LSGAN
+from GANs.BEGAN import BEGAN
 
 ## VAE Variants
-from VAE import VAE
-from CVAE import CVAE
+from GANs.VAE import VAE
+from GANs.CVAE import CVAE
 
-from utils import show_all_variables
-from utils import check_folder
+from GANs.utils import show_all_variables
+from GANs.utils import check_folder
 
 import tensorflow as tf
 import argparse
@@ -29,11 +29,11 @@ def parse_args():
 
     parser.add_argument('--gan_type', type=str, default='GAN',
                         choices=['GAN', 'CGAN', 'infoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'WGAN_GP', 'DRAGAN', 'LSGAN', 'VAE', 'CVAE'],
-                        help='The type of GAN', required=True)
+                        help='The type of GAN')
     parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fashion-mnist', 'celebA'],
                         help='The name of dataset')
-    parser.add_argument('--epoch', type=int, default=20, help='The number of epochs to run')
-    parser.add_argument('--batch_size', type=int, default=64, help='The size of batch')
+    parser.add_argument('--epoch', type=int, default=2, help='The number of epochs to run')
+    parser.add_argument('--batch_size', type=int, default=1024, help='The size of batch')
     parser.add_argument('--z_dim', type=int, default=62, help='Dimension of noise vector')
     parser.add_argument('--checkpoint_dir', type=str, default='checkpoint',
                         help='Directory name to save the checkpoints')

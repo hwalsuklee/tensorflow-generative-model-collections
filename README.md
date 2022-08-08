@@ -1,16 +1,17 @@
 # tensorflow-generative-model-collections
 Tensorflow implementation of various GANs and VAEs.
 
+
 ## Related Repositories
 ### Pytorch version
 Pytorch version of this repository is availabel at https://github.com/znxlwm/pytorch-generative-model-collections
 
-### "Are GANs Created Equal? A Large-Scale Study" Paper 
-https://github.com/google/compare_gan is the code that was used in [the paper](https://arxiv.org/abs/1711.10337).  
-It provides IS/FID and rich experimental results for all gan-variants.  
+### "Are GANs Created Equal? A Large-Scale Study" Paper
+https://github.com/google/compare_gan is the code that was used in [the paper](https://arxiv.org/abs/1711.10337).
+It provides IS/FID and rich experimental results for all gan-variants.
 
 ## Generative Adversarial Networks (GANs)
-### Lists  
+### Lists
 
 *Name* | *Paper Link* | *Value Function*
 :---: | :---: | :--- |
@@ -23,16 +24,16 @@ It provides IS/FID and rich experimental results for all gan-variants.
 **infoGAN**| [Arxiv](https://arxiv.org/abs/1606.03657) | <img src = 'assets/equations/infoGAN.png' height = '70px'>
 **ACGAN**| [Arxiv](https://arxiv.org/abs/1610.09585) | <img src = 'assets/equations/ACGAN.png' height = '70px'>
 **EBGAN**| [Arxiv](https://arxiv.org/abs/1609.03126) | <img src = 'assets/equations/EBGAN.png' height = '70px'>
-**BEGAN**| [Arxiv](https://arxiv.org/abs/1702.08431) | <img src = 'assets/equations/BEGAN.png' height = '105px'>  
+**BEGAN**| [Arxiv](https://arxiv.org/abs/1702.08431) | <img src = 'assets/equations/BEGAN.png' height = '105px'>
 
 #### Variants of GAN structure
 <img src = 'assets/etc/GAN_structure.png' height = '600px'>
 
 ### Results for mnist
-Network architecture of generator and discriminator is the exaclty sames as in [infoGAN paper](https://arxiv.org/abs/1606.03657).  
+Network architecture of generator and discriminator is the exaclty sames as in [infoGAN paper](https://arxiv.org/abs/1606.03657).
 For fair comparison of core ideas in all gan variants, all implementations for network architecture are kept same except EBGAN and BEGAN. Small modification is made for EBGAN/BEGAN, since those adopt auto-encoder strucutre for discriminator. But I tried to keep the capacity of discirminator.
 
-The following results can be reproduced with command:  
+The following results can be reproduced with command:
 ```
 python main.py --dataset mnist --gan_type <TYPE> --epoch 25 --batch_size 64
 ```
@@ -68,10 +69,10 @@ infoGAN | <img src = 'assets/mnist_results/conditional_generation/infoGAN_epoch0
 </table>
 
 ### Results for fashion-mnist
-Comments on network architecture in mnist are also applied to here.  
+Comments on network architecture in mnist are also applied to here.
 [Fashion-mnist](https://github.com/zalandoresearch/fashion-mnist) is a recently proposed dataset consisting of a training set of 60,000 examples and a test set of 10,000 examples. Each example is a 28x28 grayscale image, associated with a label from 10 classes. (T-shirt/top, Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, Ankle boot)
 
-The following results can be reproduced with command:  
+The following results can be reproduced with command:
 ```
 python main.py --dataset fashion-mnist --gan_type <TYPE> --epoch 40 --batch_size 64
 ```
@@ -98,8 +99,8 @@ CGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/CGAN_epoc
 ACGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/ACGAN_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/ACGAN_epoch019_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/ACGAN_epoch039_test_all_classes_style_by_style.png' height = '230px'>
 infoGAN | <img src = 'assets/fashion_mnist_results/conditional_generation/infoGAN_epoch000_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/infoGAN_epoch019_test_all_classes_style_by_style.png' height = '230px'> | <img src = 'assets/fashion_mnist_results/conditional_generation/infoGAN_epoch039_test_all_classes_style_by_style.png' height = '230px'>
 
-Without hyper-parameter tuning from mnist-version, ACGAN/infoGAN does not work well as compared with CGAN.  
-ACGAN tends to fall into mode-collapse.  
+Without hyper-parameter tuning from mnist-version, ACGAN/infoGAN does not work well as compared with CGAN.
+ACGAN tends to fall into mode-collapse.
 infoGAN tends to ignore noise-vector. It results in that various style within the same class can not be represented.
 
 #### InfoGAN : Manipulating two continous codes
@@ -122,7 +123,7 @@ infoGAN tends to ignore noise-vector. It results in that various style within th
 **VAE**| [Arxiv](https://arxiv.org/abs/1312.6114) | <img src = 'assets/equations/VAE.png' height = '35px'>
 **CVAE**| [Arxiv](https://arxiv.org/abs/1406.5298) | <img src = 'assets/equations/CVAE.png' height = '35px'>
 **DVAE**| [Arxiv](https://arxiv.org/abs/1511.06406) | (to be added)
-**AAE**| [Arxiv](https://arxiv.org/abs/1511.05644) | (to be added) 
+**AAE**| [Arxiv](https://arxiv.org/abs/1511.05644) | (to be added)
 
 #### Variants of VAE structure
 <img src = 'assets/etc/VAE_structure.png' height = '280px'>
@@ -130,7 +131,7 @@ infoGAN tends to ignore noise-vector. It results in that various style within th
 ### Results for mnist
 Network architecture of decoder(generator) and encoder(discriminator) is the exaclty sames as in [infoGAN paper](https://arxiv.org/abs/1606.0365). The number of output nodes in encoder is different. (2x z_dim for VAE, 1 for GAN)
 
-The following results can be reproduced with command:  
+The following results can be reproduced with command:
 ```
 python main.py --dataset mnist --gan_type <TYPE> --epoch 25 --batch_size 64
 ```
@@ -158,7 +159,7 @@ Results of CGAN is also given to compare images generated from CVAE and CGAN.
 
 #### Learned manifold
 
-The following results can be reproduced with command:  
+The following results can be reproduced with command:
 ```
 python main.py --dataset mnist --gan_type VAE --epoch 25 --batch_size 64 --dim_z 2
 ```
@@ -169,9 +170,9 @@ Please notice that dimension of noise-vector z is 2.
 VAE | <img src = 'assets/mnist_results/learned_manifold/VAE_epoch000_learned_manifold.png' height = '230px'> | <img src = 'assets/mnist_results/learned_manifold/VAE_epoch009_learned_manifold.png' height = '230px'> | <img src = 'assets/mnist_results/learned_manifold/VAE_epoch024_learned_manifold.png' height = '230px'>
 
 ### Results for fashion-mnist
-Comments on network architecture in mnist are also applied to here. 
+Comments on network architecture in mnist are also applied to here.
 
-The following results can be reproduced with command:  
+The following results can be reproduced with command:
 ```
 python main.py --dataset fashion-mnist --gan_type <TYPE> --epoch 40 --batch_size 64
 ```
@@ -198,7 +199,7 @@ Results of CGAN is also given to compare images generated from CVAE and CGAN.
 
 #### Learned manifold
 
-The following results can be reproduced with command:  
+The following results can be reproduced with command:
 ```
 python main.py --dataset fashion-mnist --gan_type VAE --epoch 25 --batch_size 64 --dim_z 2
 ```
